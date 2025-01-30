@@ -1,11 +1,24 @@
 version: '4'
 
 services:
-  product-maintainer:
-    build: .
-    ports:
-      - "8080:8080"
+  #  product-maintainer:
+  #    build: .
+  #    ports:
+  #      - "8080:8080"
   cassandra:
-    image: cassandra:latest
+    image: cassandra:4.1.0
+    container_name: cassandra
     ports:
+      - "7000:7000"
       - "9042:9042"
+    environment:
+      - CASSANDRA_CLUSTER_NAME=test
+  init-cassandra:
+    image: cassandra:4.1.0
+    container_name: cassandra-init
+    depends_on:
+      - cassandra # IMPORTANT: this init container can only start up after the original container is started
+    restart: "no" # IMPORTANT: the restart should be set to "no" so that the init container is used only once after the original container is started
+    entrypoint: [ "/init.sh" ] # executing the init script
+    volumes:
+      - ./cassandra-init-data.sh:/init.sh # the init script is added via volumes
