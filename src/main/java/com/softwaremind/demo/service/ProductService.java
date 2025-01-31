@@ -1,11 +1,11 @@
 package com.softwaremind.demo.service;
 
-import com.softwaremind.demo.dto.ProductRequest;
-import com.softwaremind.demo.dto.ProductResponse;
+import com.softwaremind.demo.dto.product.ProductRequest;
+import com.softwaremind.demo.dto.product.ProductResponse;
 import com.softwaremind.demo.exception.CategoryNotFoundException;
 import com.softwaremind.demo.exception.ProductNotFoundException;
-import com.softwaremind.demo.model.Category;
-import com.softwaremind.demo.model.Product;
+import com.softwaremind.demo.model.product.Category;
+import com.softwaremind.demo.model.product.Product;
 import com.softwaremind.demo.repository.ProductRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

@@ -1,6 +1,6 @@
-package com.softwaremind.demo.dto;
+package com.softwaremind.demo.dto.product;
 
-import com.softwaremind.demo.model.Category;
+import com.softwaremind.demo.model.product.Category;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

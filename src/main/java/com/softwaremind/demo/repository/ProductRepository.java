@@ -1,7 +1,7 @@
 package com.softwaremind.demo.repository;
 
-import com.softwaremind.demo.model.Category;
-import com.softwaremind.demo.model.Product;
+import com.softwaremind.demo.model.product.Category;
+import com.softwaremind.demo.model.product.Product;
 import org.springframework.data.cassandra.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 

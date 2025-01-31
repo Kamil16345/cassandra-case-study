@@ -1,4 +1,4 @@
-package com.softwaremind.demo.model;
+package com.softwaremind.demo.model.product;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

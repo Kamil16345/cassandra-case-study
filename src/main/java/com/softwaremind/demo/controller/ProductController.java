@@ -1,8 +1,8 @@
 package com.softwaremind.demo.controller;
 
-import com.softwaremind.demo.dto.ProductRequest;
-import com.softwaremind.demo.dto.ProductResponse;
-import com.softwaremind.demo.model.Product;
+import com.softwaremind.demo.dto.product.ProductRequest;
+import com.softwaremind.demo.dto.product.ProductResponse;
+import com.softwaremind.demo.model.product.Product;
 import com.softwaremind.demo.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
