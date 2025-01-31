@@ -3,7 +3,7 @@ package com.softwaremind.demo.model;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.cassandra.core.mapping.PrimaryKey;
 import org.springframework.data.cassandra.core.mapping.Table;
 
@@ -11,16 +11,15 @@ import java.math.BigDecimal;
 import java.util.UUID;
 
 @AllArgsConstructor
-@NoArgsConstructor
+@RequiredArgsConstructor
 @Builder
 @Data
-@Table
+@Table("products")
 public class Product {
     @PrimaryKey
-    UUID id;
-    String name;
-    String description;
-    BigDecimal price;
-    Category category;
-
+    private UUID id;
+    private String name;
+    private String description;
+    private BigDecimal price;
+    private Category category;
 }

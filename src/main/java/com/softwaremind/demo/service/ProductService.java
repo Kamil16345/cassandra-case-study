@@ -20,8 +20,9 @@ import java.util.UUID;
 public class ProductService {
     private final ProductRepository productRepository;
 
-    public void createProduct(ProductRequest productRequest) {
+    public ResponseEntity<ProductResponse> createProduct(ProductRequest productRequest) {
         Product product = Product.builder()
+                .id(UUID.randomUUID())
                 .name(productRequest.getName())
                 .description(productRequest.getDescription())
                 .price(productRequest.getPrice())
@@ -29,6 +30,7 @@ public class ProductService {
                 .build();
         productRepository.save(product);
         log.info("Product has been saved: " + product.getId());
+        return ResponseEntity.status(HttpStatus.CREATED).body(mapToProductResponse(product));
     }
 
     public ProductResponse getProduct(UUID id) {
@@ -39,15 +41,6 @@ public class ProductService {
     public List<ProductResponse> getAllProducts() {
         List<Product> products = (List<Product>) productRepository.findAll();
         return products.stream().map(this::mapToProductResponse).toList();
-    }
-
-    private ProductResponse mapToProductResponse(Product product) {
-        return ProductResponse.builder()
-                .id(product.getId())
-                .name(product.getName())
-                .description(product.getDescription())
-                .price(product.getPrice())
-                .build();
     }
 
     public ResponseEntity<ProductResponse> updateProduct(UUID id, Product body) {
@@ -61,8 +54,18 @@ public class ProductService {
         return ResponseEntity.status(HttpStatus.OK).body(mapToProductResponse(existingProduct));
     }
 
-    public ResponseEntity<String> deleteProduct(UUID id){
+    public ResponseEntity<String> deleteProduct(UUID id) {
         productRepository.deleteById(id);
         return ResponseEntity.ok("Product deleted successfully.");
+    }
+
+    private ProductResponse mapToProductResponse(Product product) {
+        return ProductResponse.builder()
+                .id(product.getId())
+                .name(product.getName())
+                .description(product.getDescription())
+                .price(product.getPrice())
+                .category(product.getCategory())
+                .build();
     }
 }
