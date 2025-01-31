@@ -4,11 +4,9 @@ import com.softwaremind.demo.dto.ProductRequest;
 import com.softwaremind.demo.dto.ProductResponse;
 import com.softwaremind.demo.model.Product;
 import com.softwaremind.demo.service.ProductService;
-import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -40,6 +38,12 @@ public class ProductController {
     @ResponseStatus(HttpStatus.OK)
     public List<ProductResponse> getAllProducts() {
         return productService.getAllProducts();
+    }
+
+    @GetMapping("/category/{category}")
+    @ResponseStatus(HttpStatus.OK)
+    public List<ProductResponse> getProductsWithCategory(@PathVariable String category) {
+        return productService.getProductsWithCategory(category);
     }
 
     @PutMapping("/{id}")

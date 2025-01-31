@@ -2,7 +2,9 @@ package com.softwaremind.demo.service;
 
 import com.softwaremind.demo.dto.ProductRequest;
 import com.softwaremind.demo.dto.ProductResponse;
+import com.softwaremind.demo.exception.CategoryNotFoundException;
 import com.softwaremind.demo.exception.ProductNotFoundException;
+import com.softwaremind.demo.model.Category;
 import com.softwaremind.demo.model.Product;
 import com.softwaremind.demo.repository.ProductRepository;
 import lombok.RequiredArgsConstructor;
@@ -11,6 +13,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 
@@ -43,8 +46,19 @@ public class ProductService {
         return products.stream().map(this::mapToProductResponse).toList();
     }
 
+
+    public List<ProductResponse> getProductsWithCategory(String category) {
+        if (!isValidCategory(category)) {
+            throw new CategoryNotFoundException("Could not find category: " + category);
+        }
+        return productRepository.findByCategory(Category.valueOf(category))
+                .stream()
+                .map(this::mapToProductResponse)
+                .toList();
+    }
+
     public ResponseEntity<ProductResponse> updateProduct(UUID id, Product body) {
-        Product existingProduct = productRepository.findById(id).orElseThrow(() -> new ProductNotFoundException("Product with id " + id + " not found"));
+        Product existingProduct = productRepository.findById(id).orElseThrow(() -> new ProductNotFoundException("Not found product with id: " + id));
         existingProduct.setName(body.getName());
         existingProduct.setDescription(body.getDescription());
         existingProduct.setPrice(body.getPrice());
@@ -55,6 +69,7 @@ public class ProductService {
     }
 
     public ResponseEntity<String> deleteProduct(UUID id) {
+        productRepository.findById(id).orElseThrow(() -> new ProductNotFoundException("Not found product with id: " + id));
         productRepository.deleteById(id);
         return ResponseEntity.ok("Product deleted successfully.");
     }
@@ -67,5 +82,11 @@ public class ProductService {
                 .price(product.getPrice())
                 .category(product.getCategory())
                 .build();
+    }
+    private boolean isValidCategory(String categoryName){
+        return Arrays
+                .stream(Category.values())
+                .map(Enum::name)
+                .anyMatch(name->name.equals(categoryName));
     }
 }
