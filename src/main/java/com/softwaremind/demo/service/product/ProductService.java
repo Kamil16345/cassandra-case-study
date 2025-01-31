@@ -1,4 +1,4 @@
-package com.softwaremind.demo.service;
+package com.softwaremind.demo.service.product;
 
 import com.softwaremind.demo.dto.product.ProductRequest;
 import com.softwaremind.demo.dto.product.ProductResponse;
@@ -46,7 +46,6 @@ public class ProductService {
         return products.stream().map(this::mapToProductResponse).toList();
     }
 
-
     public List<ProductResponse> getProductsWithCategory(String category) {
         if (!isValidCategory(category)) {
             throw new CategoryNotFoundException("Could not find category: " + category);
@@ -83,10 +82,11 @@ public class ProductService {
                 .category(product.getCategory())
                 .build();
     }
-    private boolean isValidCategory(String categoryName){
+
+    private boolean isValidCategory(String categoryName) {
         return Arrays
                 .stream(Category.values())
                 .map(Enum::name)
-                .anyMatch(name->name.equals(categoryName));
+                .anyMatch(name -> name.equals(categoryName));
     }
 }

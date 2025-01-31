@@ -3,10 +3,11 @@ package com.softwaremind.demo.controller;
 import com.softwaremind.demo.dto.product.ProductRequest;
 import com.softwaremind.demo.dto.product.ProductResponse;
 import com.softwaremind.demo.model.product.Product;
-import com.softwaremind.demo.service.ProductService;
+import com.softwaremind.demo.service.product.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -36,6 +37,7 @@ public class ProductController {
 
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
+    @PreAuthorize("hasRole('USER')")
     public List<ProductResponse> getAllProducts() {
         return productService.getAllProducts();
     }
