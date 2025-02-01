@@ -9,6 +9,6 @@ import java.util.UUID;
 
 public interface UserRepository extends CrudRepository<User, UUID> {
 
-    @Query("SELECT * FROM products WHERE username = ?0 ALLOW FILTERING")
-    List<User> findByUsername(String username);
+    @Query("SELECT * FROM users WHERE username = ?0 ALLOW FILTERING")
+    User findByUsername(String username);
 }

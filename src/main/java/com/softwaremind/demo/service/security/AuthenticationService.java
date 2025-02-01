@@ -3,16 +3,15 @@ package com.softwaremind.demo.service.security;
 import com.softwaremind.demo.dto.security.AuthenticationRequest;
 import com.softwaremind.demo.dto.security.AuthenticationResponse;
 import com.softwaremind.demo.dto.security.RegisterRequest;
-import com.softwaremind.demo.model.security.Role;
 import com.softwaremind.demo.model.security.User;
 import com.softwaremind.demo.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.context.annotation.Bean;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -24,9 +23,10 @@ public class AuthenticationService {
 
     public AuthenticationResponse register(RegisterRequest request) {
         var user = User.builder()
+                .id(UUID.randomUUID())
                 .username(request.getUsername())
                 .password(passwordEncoder.encode(request.getPassword()))
-                .role(Role.USER)
+                .role(request.getRole())
                 .build();
         repository.save(user);
         var jwtToken = jwtService.generateToken(user);
@@ -43,7 +43,7 @@ public class AuthenticationService {
                 )
         );
         var user = repository.findByUsername(request.getUsername());
-        var jwtToken = jwtService.generateToken(user.get(0));
+        var jwtToken = jwtService.generateToken(user);
         return AuthenticationResponse.builder()
                 .token(jwtToken)
                 .build();
