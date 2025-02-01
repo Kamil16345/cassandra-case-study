@@ -11,11 +11,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-//Users can register through /api/auth/register
-//Sign in though /api/auth/authenticate
-//After sign-in they receive JWT token
-//Token supposed to be attached in header Authorization: Bearer {token} for further requests
-//endpoints are secured according to User's role
 @RestController
 @RequestMapping("/api/auth")
 @RequiredArgsConstructor
